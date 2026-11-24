@@ -197,6 +197,7 @@ export const TemplateGalleryModal: React.FC<TemplateGalleryModalProps> = ({
                     <img 
                       src={tmpl.imageUrl} 
                       alt={tmpl.titleVi} 
+                      loading="lazy"
                       className="w-full h-full object-contain p-1 select-none pointer-events-none" 
                     />
                   ) : (
