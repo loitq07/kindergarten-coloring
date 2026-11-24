@@ -4,7 +4,8 @@ export function floodFill(
   startX: number,
   startY: number,
   fillColorHex: string,
-  tolerance: number = 40
+  tolerance: number = 40,
+  outlineImgData?: ImageData | null
 ): boolean {
   const width = ctx.canvas.width;
   const height = ctx.canvas.height;
@@ -28,10 +29,21 @@ export function floodFill(
   const sb = data[startIndex + 2];
   const sa = data[startIndex + 3];
 
-  // If clicked on a dark outline, do not fill
-  const startBrightness = (sr * 299 + sg * 587 + sb * 114) / 1000;
-  if (startBrightness < 65 && sa > 200) {
-    return false;
+  // If clicked directly on a dark outline, do not fill
+  if (outlineImgData) {
+    const or = outlineImgData.data[startIndex];
+    const og = outlineImgData.data[startIndex + 1];
+    const ob = outlineImgData.data[startIndex + 2];
+    const oa = outlineImgData.data[startIndex + 3];
+    const oBrightness = (or * 299 + og * 587 + ob * 114) / 1000;
+    if (oBrightness < 75 && oa > 150) {
+      return false;
+    }
+  } else {
+    const startBrightness = (sr * 299 + sg * 587 + sb * 114) / 1000;
+    if (startBrightness < 65 && sa > 200) {
+      return false;
+    }
   }
 
   // If already the same color, return
@@ -45,14 +57,27 @@ export function floodFill(
   }
 
   const colorMatch = (idx: number): boolean => {
+    // 1. Check against outline boundary if provided
+    if (outlineImgData) {
+      const or = outlineImgData.data[idx];
+      const og = outlineImgData.data[idx + 1];
+      const ob = outlineImgData.data[idx + 2];
+      const oa = outlineImgData.data[idx + 3];
+      const oBrightness = (or * 299 + og * 587 + ob * 114) / 1000;
+      if (oBrightness < 75 && oa > 150) return false;
+    } else {
+      const r = data[idx];
+      const g = data[idx + 1];
+      const b = data[idx + 2];
+      const a = data[idx + 3];
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      if (brightness < 60 && a > 180) return false;
+    }
+
     const r = data[idx];
     const g = data[idx + 1];
     const b = data[idx + 2];
     const a = data[idx + 3];
-
-    // Don't flood into dark outlines
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    if (brightness < 60 && a > 180) return false;
 
     // Compare with starting pixel color
     return (

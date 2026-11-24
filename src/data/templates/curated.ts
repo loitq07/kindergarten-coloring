@@ -1,6 +1,85 @@
 import { ColoringTemplate } from '../../types';
 
 export const CURATED_TEMPLATES: ColoringTemplate[] = [
+  // BỘ SƯU TẬP KHỦNG LONG BẢN VẼ CHI TIẾT (AUTHENTIC DINOSAUR ART)
+  {
+    id: 'dino-trex-real',
+    titleVi: 'Bạo Chúa T-Rex Khổng Lồ',
+    titleEn: 'Tyrannosaurus Rex Giant',
+    category: 'dinosaurs',
+    difficulty: 'medium',
+    viewBox: '0 0 1792 2400',
+    regions: [],
+    imageUrl: '/templates/dino_trex.svg',
+    tags: ['t-rex', 'khủng long', 'dinosaur', 'bạo chúa', 'bé trai']
+  },
+  {
+    id: 'dino-triceratops-real',
+    titleVi: 'Khủng Long Ba Sừng Triceratops',
+    titleEn: 'Armored Triceratops',
+    category: 'dinosaurs',
+    difficulty: 'medium',
+    viewBox: '0 0 1792 2400',
+    regions: [],
+    imageUrl: '/templates/dino_triceratops.svg',
+    tags: ['ba sừng', 'triceratops', 'khủng long', 'bé trai']
+  },
+  {
+    id: 'dino-spinosaurus-real',
+    titleVi: 'Khủng Long Gai Buồm Spinosaurus',
+    titleEn: 'Sail-backed Spinosaurus',
+    category: 'dinosaurs',
+    difficulty: 'hard',
+    viewBox: '0 0 1792 2400',
+    regions: [],
+    imageUrl: '/templates/dino_spinosaurus.svg',
+    tags: ['spinosaurus', 'khủng long', 'gai buồm', 'bé trai']
+  },
+  {
+    id: 'dino-stegosaurus-real',
+    titleVi: 'Khủng Long Gai Lưng Stegosaurus',
+    titleEn: 'Plated Stegosaurus',
+    category: 'dinosaurs',
+    difficulty: 'medium',
+    viewBox: '0 0 1792 2400',
+    regions: [],
+    imageUrl: '/templates/dino_stegosaurus.svg',
+    tags: ['stegosaurus', 'khủng long', 'gai lưng', 'bé trai']
+  },
+  {
+    id: 'dino-brachiosaurus-real',
+    titleVi: 'Khủng Long Cổ Dài Brachiosaurus',
+    titleEn: 'Long-neck Brachiosaurus',
+    category: 'dinosaurs',
+    difficulty: 'medium',
+    viewBox: '0 0 1792 2400',
+    regions: [],
+    imageUrl: '/templates/dino_brachiosaurus.svg',
+    tags: ['cổ dài', 'brachiosaurus', 'khủng long', 'bé trai']
+  },
+  {
+    id: 'dino-velociraptor-real',
+    titleVi: 'Khủng Long Săn Mồi Velociraptor',
+    titleEn: 'Swift Velociraptor',
+    category: 'dinosaurs',
+    difficulty: 'medium',
+    viewBox: '0 0 1792 2400',
+    regions: [],
+    imageUrl: '/templates/dino_velociraptor.svg',
+    tags: ['velociraptor', 'khủng long', 'săn mồi', 'bé trai']
+  },
+  {
+    id: 'dino-ankylosaurus-real',
+    titleVi: 'Khủng Long Bọc Thép Ankylosaurus',
+    titleEn: 'Armored Ankylosaurus',
+    category: 'dinosaurs',
+    difficulty: 'hard',
+    viewBox: '0 0 1792 2400',
+    regions: [],
+    imageUrl: '/templates/dino_ankylosaurus.svg',
+    tags: ['ankylosaurus', 'khủng long', 'đuôi chùy', 'bé trai']
+  },
+
   // CÁC HÌNH ĐẶC SẮC DÀNH CHO BÉ TRAI (BOY HEROES & ADVENTURE)
   {
     id: 'curated-shark',

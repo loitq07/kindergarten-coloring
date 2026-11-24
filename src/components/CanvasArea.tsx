@@ -42,6 +42,8 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const outlineImageDataRef = useRef<ImageData | null>(null);
+  const activeRegionClipPath = useRef<Path2D | null>(null);
   
   // Pan and Zoom state for iPad navigation
   const [scale, setScale] = useState(1);
@@ -67,24 +69,18 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
   const updateCanvasSize = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    // High DPI Retina display support
-    const dpr = window.devicePixelRatio || 1;
     const width = 500;
     const height = 500;
     
-    if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-      // Save current content before resize
-      const ctx = canvas.getContext('2d');
-      const tempImage = ctx?.getImageData(0, 0, canvas.width, canvas.height);
-      
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
       canvas.style.width = '100%';
       canvas.style.height = '100%';
-      
-      ctx?.scale(dpr, dpr);
-      if (tempImage && ctx) {
-        // Can re-draw if needed
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, width, height);
       }
     }
   }, []);
@@ -93,28 +89,49 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
     updateCanvasSize();
   }, [updateCanvasSize]);
 
-  // Load raster image onto canvas if template is image-based
+  // Prepare line-art boundary reference and initialize coloring canvas
   useEffect(() => {
-    if (template.imageUrl && canvasRef.current) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    if (template.imageUrl) {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = () => {
+        // Offscreen canvas to capture exact black outlines for flood fill
+        const offCanvas = document.createElement('canvas');
+        offCanvas.width = 500;
+        offCanvas.height = 500;
+        const offCtx = offCanvas.getContext('2d');
+        if (offCtx) {
+          offCtx.fillStyle = '#FFFFFF';
+          offCtx.fillRect(0, 0, 500, 500);
+          offCtx.drawImage(img, 0, 0, 500, 500);
+          outlineImageDataRef.current = offCtx.getImageData(0, 0, 500, 500);
+        }
+
+        // Initialize user coloring canvas with clean white
         ctx.clearRect(0, 0, 500, 500);
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, 500, 500);
-        ctx.drawImage(img, 0, 0, 500, 500);
       };
       img.src = template.imageUrl;
+    } else {
+      outlineImageDataRef.current = null;
+      ctx.clearRect(0, 0, 500, 500);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 500, 500);
     }
   }, [template.id, template.imageUrl]);
 
   // Convert client coordinates to 0..500 SVG/Canvas coordinates
   const getCoordinates = (e: React.PointerEvent | PointerEvent) => {
-    if (!svgRef.current) return { x: 0, y: 0 };
-    const rect = svgRef.current.getBoundingClientRect();
+    if (!containerRef.current) return { x: 0, y: 0 };
+    const board = containerRef.current.querySelector('[data-drawing-board="true"]');
+    if (!board) return { x: 0, y: 0 };
+    const rect = board.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 500;
     const y = ((e.clientY - rect.top) / rect.height) * 500;
     return { x, y };
@@ -146,13 +163,13 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
 
     const { x, y } = getCoordinates(e);
 
-    // 1. FILL TOOL MODE
+    // 1. FILL TOOL MODE (Đổ Màu)
     if (currentTool === 'fill') {
       if (template.imageUrl) {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
         if (ctx) {
-          const success = floodFill(ctx, x, y, currentColor);
+          const success = floodFill(ctx, x, y, currentColor, 40, outlineImageDataRef.current);
           if (success) {
             sound.playFill();
             recordHistory();
@@ -171,7 +188,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
       return;
     }
 
-    // 2. STAMP TOOL MODE
+    // 2. STAMP TOOL MODE (Con Dấu)
     if (currentTool === 'stamp') {
       const canvas = canvasRef.current;
       if (!canvas) return;
@@ -183,7 +200,6 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
       ctx.font = `${brushSize * 2.2}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      // Slight random wobble for playful feel
       const wobble = (Math.random() - 0.5) * 0.3;
       ctx.translate(x, y);
       ctx.rotate(wobble);
@@ -197,6 +213,24 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
     // 3. FREEHAND BRUSH / CRAYON / GLITTER / NEON / ERASER
     setIsDrawing(true);
     setLastPoint({ x, y });
+
+    // Set up Smart Coloring clip path if stayInsideLines is active
+    if (stayInsideLines && template.regions.length > 0) {
+      const target = document.elementFromPoint(e.clientX, e.clientY);
+      const rId = target?.getAttribute('data-region-id');
+      const reg = template.regions.find(r => r.id === rId);
+      if (reg) {
+        try {
+          activeRegionClipPath.current = new Path2D(reg.d);
+        } catch {
+          activeRegionClipPath.current = null;
+        }
+      } else {
+        activeRegionClipPath.current = null;
+      }
+    } else {
+      activeRegionClipPath.current = null;
+    }
 
     // Initial dot or sound
     if (currentTool === 'glitter') {
@@ -218,13 +252,14 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
 
     ctx.save();
     
-    // Lock within lines clip if enabled
-    if (stayInsideLines) {
-      // Stay inside lines uses clipping from paths if applicable
+    // Smart Clip within current line boundary if enabled
+    if (stayInsideLines && activeRegionClipPath.current) {
+      ctx.clip(activeRegionClipPath.current);
     }
 
     if (currentTool === 'eraser') {
-      ctx.globalCompositeOperation = 'destination-out';
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#FFFFFF';
       ctx.beginPath();
       ctx.arc(x2, y2, effSize * 1.2, 0, Math.PI * 2);
       ctx.fill();
@@ -336,6 +371,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
     if (activePointerId.current === e.pointerId) {
       activePointerId.current = null;
     }
+    activeRegionClipPath.current = null;
     if (isDrawing) {
       setIsDrawing(false);
       setLastPoint(null);
@@ -360,7 +396,6 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
             ctx.rotate(p.rotation);
             ctx.fillStyle = p.color;
             ctx.globalAlpha = p.alpha;
-            // Draw four-point sparkle star
             ctx.beginPath();
             ctx.moveTo(0, -p.size);
             ctx.quadraticCurveTo(0, 0, p.size, 0);
@@ -456,6 +491,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
 
       {/* Main Drawing Canvas Board */}
       <div 
+        data-drawing-board="true"
         style={{
           transform: `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`,
           transformOrigin: 'center center',
@@ -463,18 +499,12 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
         }}
         className="w-full max-w-[500px] aspect-square bg-white rounded-3xl shadow-xl border-4 border-amber-200 relative overflow-hidden"
       >
-        {/* LAYER 0: Interactive Fillable SVG Paths */}
+        {/* LAYER 0: Interactive Fillable SVG Paths (Base Fills) */}
         <svg
           ref={svgRef}
           viewBox={template.viewBox || "0 0 500 500"}
           className="absolute inset-0 w-full h-full z-0 pointer-events-auto"
         >
-          <defs>
-            <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="2" stdDeviation="2" floodOpacity="0.1" />
-            </filter>
-          </defs>
-
           {/* Background rect */}
           <rect width="500" height="500" fill="#FFFFFF" />
 
@@ -488,10 +518,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
                 data-region-id={r.id}
                 d={r.d}
                 fill={fillColor}
-                stroke="#2B2B2B"
-                strokeWidth={r.strokeWidth || 4.5}
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke="none"
                 className={`transition-colors duration-150 ${
                   currentTool === 'fill' ? 'cursor-pointer hover:opacity-90' : ''
                 }`}
@@ -506,7 +533,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
           })}
         </svg>
 
-        {/* LAYER 1: Freehand Drawing Canvas (middle) */}
+        {/* LAYER 1: Freehand Drawing & Coloring Canvas (middle at z-10) */}
         <canvas
           ref={canvasRef}
           width={500}
@@ -520,23 +547,34 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
           }`}
         />
 
-        {/* LAYER 2: Crisp Cartoon Outlines on top so drawings never erase the line-art */}
-        <svg
-          viewBox={template.viewBox || "0 0 500 500"}
-          className="absolute inset-0 w-full h-full z-20 pointer-events-none"
-        >
-          {template.regions.map(r => (
-            <path
-              key={`outline-${r.id}`}
-              d={r.d}
-              fill="none"
-              stroke="#2B2B2B"
-              strokeWidth={r.strokeWidth || 4.5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          ))}
-        </svg>
+        {/* LAYER 2: Crisp Cartoon Outlines ALWAYS on top with Multiply blend mode so drawings NEVER cover the line-art */}
+        {template.imageUrl ? (
+          <img
+            src={template.imageUrl}
+            alt="Line Art Overlay"
+            draggable={false}
+            className="absolute inset-0 w-full h-full z-20 pointer-events-none select-none object-contain"
+            style={{ mixBlendMode: 'multiply' }}
+          />
+        ) : (
+          <svg
+            viewBox={template.viewBox || "0 0 500 500"}
+            className="absolute inset-0 w-full h-full z-20 pointer-events-none"
+            style={{ mixBlendMode: 'multiply' }}
+          >
+            {template.regions.map(r => (
+              <path
+                key={`outline-${r.id}`}
+                d={r.d}
+                fill="none"
+                stroke="#1A1A1A"
+                strokeWidth={r.strokeWidth || 4.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            ))}
+          </svg>
+        )}
       </div>
     </main>
   );

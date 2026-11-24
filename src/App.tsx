@@ -199,13 +199,24 @@ export const App: React.FC = () => {
       offCtx.fillStyle = '#FFFFFF';
       offCtx.fillRect(0, 0, 1000, 1000);
 
-      // If raster / image-based template, canvas holds the whole drawing
+      // If raster / image-based template, canvas holds the user colors, then overlay line-art with multiply
       if (currentTemplate.imageUrl) {
         const canvas = canvasElementRef.current;
         if (canvas) {
           offCtx.drawImage(canvas, 0, 0, 1000, 1000);
         }
-        resolve(offscreen.toDataURL('image/png'));
+        const lineImg = new Image();
+        lineImg.crossOrigin = 'anonymous';
+        lineImg.onload = () => {
+          offCtx.globalCompositeOperation = 'multiply';
+          offCtx.drawImage(lineImg, 0, 0, 1000, 1000);
+          offCtx.globalCompositeOperation = 'source-over';
+          resolve(offscreen.toDataURL('image/png'));
+        };
+        lineImg.onerror = () => {
+          resolve(offscreen.toDataURL('image/png'));
+        };
+        lineImg.src = currentTemplate.imageUrl;
         return;
       }
 
@@ -236,12 +247,11 @@ export const App: React.FC = () => {
           offCtx.drawImage(canvas, 0, 0, 1000, 1000);
         }
 
-        // 4. Render top outline lines for clean finish
+        // 4. Render top outline lines with MULTIPLY so lines are ALWAYS on top
         const outlineImg = new Image();
-        // Construct SVG string for outlines only
         let outlineSvgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${currentTemplate.viewBox || '0 0 500 500'}" width="1000" height="1000">`;
         currentTemplate.regions.forEach(r => {
-          outlineSvgStr += `<path d="${r.d}" fill="none" stroke="#2B2B2B" stroke-width="${r.strokeWidth || 4.5}" stroke-linecap="round" stroke-linejoin="round" />`;
+          outlineSvgStr += `<path d="${r.d}" fill="none" stroke="#1A1A1A" stroke-width="${r.strokeWidth ? r.strokeWidth * 1.5 : 5}" stroke-linecap="round" stroke-linejoin="round" />`;
         });
         outlineSvgStr += '</svg>';
 
@@ -249,7 +259,9 @@ export const App: React.FC = () => {
         const outlineUrl = URLObj.createObjectURL(outlineBlob);
 
         outlineImg.onload = () => {
+          offCtx.globalCompositeOperation = 'multiply';
           offCtx.drawImage(outlineImg, 0, 0, 1000, 1000);
+          offCtx.globalCompositeOperation = 'source-over';
           URLObj.revokeObjectURL(outlineUrl);
 
           const finalDataUrl = offscreen.toDataURL('image/png');

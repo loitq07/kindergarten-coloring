@@ -1,19 +1,19 @@
 import { ColoringTemplate } from '../../types';
+import { CURATED_TEMPLATES } from './curated';
 import { BOY_DINOSAURS_TEMPLATES } from './boyDinosaurs';
 import { BOY_VEHICLES_TEMPLATES } from './boyVehicles';
 import { BOY_ACTION_TEMPLATES } from './boyAction';
-import { CURATED_TEMPLATES } from './curated';
 import { FREE_DRAW_TEMPLATE } from './freeDraw';
 
 export const ALL_TEMPLATES: ColoringTemplate[] = [
-  // 1. Khủng long dũng mãnh cho bé trai
-  ...BOY_DINOSAURS_TEMPLATES,
+  // 1. Tuyển tập tranh vẽ hoạt hình & khủng long chi tiết chuẩn sách tô màu
+  ...CURATED_TEMPLATES,
   // 2. Siêu xe, xe quái vật, máy xúc công trình, máy bay phản lực
   ...BOY_VEHICLES_TEMPLATES,
   // 3. Robot chiến binh, tàu vũ trụ, xe cứu hỏa, xe cảnh sát
   ...BOY_ACTION_TEMPLATES,
-  // 4. Các hình vẽ vector cartoon tuyển chọn cao cấp (Cá mập, hiệp sĩ, tàu chiến, động vật, v.v.)
-  ...CURATED_TEMPLATES,
+  // 4. Khủng long tiền sử
+  ...BOY_DINOSAURS_TEMPLATES,
   // 5. Bảng vẽ tự do sáng tạo
   FREE_DRAW_TEMPLATE
 ];
