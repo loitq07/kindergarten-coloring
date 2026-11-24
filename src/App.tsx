@@ -199,6 +199,16 @@ export const App: React.FC = () => {
       offCtx.fillStyle = '#FFFFFF';
       offCtx.fillRect(0, 0, 1000, 1000);
 
+      // If raster / image-based template, canvas holds the whole drawing
+      if (currentTemplate.imageUrl) {
+        const canvas = canvasElementRef.current;
+        if (canvas) {
+          offCtx.drawImage(canvas, 0, 0, 1000, 1000);
+        }
+        resolve(offscreen.toDataURL('image/png'));
+        return;
+      }
+
       // 2. Render SVG fills
       const svg = svgElementRef.current;
       if (!svg) {
@@ -405,19 +415,23 @@ export const App: React.FC = () => {
 
       {/* Printable Area (Only shown when printing) */}
       <div className="hidden print:flex print-area items-center justify-center w-screen h-screen bg-white">
-        <svg viewBox={currentTemplate.viewBox || "0 0 500 500"} className="w-[85vw] h-[85vh]">
-          {currentTemplate.regions.map(r => (
-            <path
-              key={`print-${r.id}`}
-              d={r.d}
-              fill="#FFFFFF"
-              stroke="#000000"
-              strokeWidth={r.strokeWidth ? r.strokeWidth * 1.2 : 5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          ))}
-        </svg>
+        {currentTemplate.imageUrl ? (
+          <img src={currentTemplate.imageUrl} alt="Printable Coloring Sheet" className="max-w-[85vw] max-h-[85vh] object-contain" />
+        ) : (
+          <svg viewBox={currentTemplate.viewBox || "0 0 500 500"} className="w-[85vw] h-[85vh]">
+            {currentTemplate.regions.map(r => (
+              <path
+                key={`print-${r.id}`}
+                d={r.d}
+                fill="#FFFFFF"
+                stroke="#000000"
+                strokeWidth={r.strokeWidth ? r.strokeWidth * 1.2 : 5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            ))}
+          </svg>
+        )}
       </div>
     </div>
   );

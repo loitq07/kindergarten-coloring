@@ -193,6 +193,12 @@ export const TemplateGalleryModal: React.FC<TemplateGalleryModalProps> = ({
                       <Pencil className="w-10 h-10 animate-bounce-gentle" />
                       <span className="text-xs font-bold text-center">Trang Trắng Sáng Tạo</span>
                     </div>
+                  ) : tmpl.imageUrl ? (
+                    <img 
+                      src={tmpl.imageUrl} 
+                      alt={tmpl.titleVi} 
+                      className="w-full h-full object-contain p-1 select-none pointer-events-none" 
+                    />
                   ) : (
                     <svg viewBox={tmpl.viewBox || "0 0 500 500"} className="w-full h-full">
                       {tmpl.regions.map(r => (

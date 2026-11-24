@@ -1,4 +1,5 @@
 import { ColoringTemplate } from '../../types';
+import { CURATED_TEMPLATES } from './curated';
 import { ANIMAL_TEMPLATES } from './animals';
 import { OCEAN_TEMPLATES } from './ocean';
 import { VEHICLE_TEMPLATES } from './vehicles';
@@ -10,6 +11,7 @@ import { NATURE_TEMPLATES } from './nature';
 import { FREE_DRAW_TEMPLATE } from './freeDraw';
 
 export const ALL_TEMPLATES: ColoringTemplate[] = [
+  ...CURATED_TEMPLATES,
   ...ANIMAL_TEMPLATES,
   ...OCEAN_TEMPLATES,
   ...VEHICLE_TEMPLATES,
