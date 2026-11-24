@@ -1,25 +1,20 @@
 import { ColoringTemplate } from '../../types';
+import { BOY_DINOSAURS_TEMPLATES } from './boyDinosaurs';
+import { BOY_VEHICLES_TEMPLATES } from './boyVehicles';
+import { BOY_ACTION_TEMPLATES } from './boyAction';
 import { CURATED_TEMPLATES } from './curated';
-import { ANIMAL_TEMPLATES } from './animals';
-import { OCEAN_TEMPLATES } from './ocean';
-import { VEHICLE_TEMPLATES } from './vehicles';
-import { DINOSAUR_TEMPLATES } from './dinosaurs';
-import { FAIRYTALE_TEMPLATES } from './fairytale';
-import { FRUIT_TEMPLATES } from './fruits';
-import { SPACE_TEMPLATES } from './space';
-import { NATURE_TEMPLATES } from './nature';
 import { FREE_DRAW_TEMPLATE } from './freeDraw';
 
 export const ALL_TEMPLATES: ColoringTemplate[] = [
+  // 1. Khủng long dũng mãnh cho bé trai
+  ...BOY_DINOSAURS_TEMPLATES,
+  // 2. Siêu xe, xe quái vật, máy xúc công trình, máy bay phản lực
+  ...BOY_VEHICLES_TEMPLATES,
+  // 3. Robot chiến binh, tàu vũ trụ, xe cứu hỏa, xe cảnh sát
+  ...BOY_ACTION_TEMPLATES,
+  // 4. Các hình vẽ vector cartoon tuyển chọn cao cấp (Cá mập, hiệp sĩ, tàu chiến, động vật, v.v.)
   ...CURATED_TEMPLATES,
-  ...ANIMAL_TEMPLATES,
-  ...OCEAN_TEMPLATES,
-  ...VEHICLE_TEMPLATES,
-  ...DINOSAUR_TEMPLATES,
-  ...FAIRYTALE_TEMPLATES,
-  ...FRUIT_TEMPLATES,
-  ...SPACE_TEMPLATES,
-  ...NATURE_TEMPLATES,
+  // 5. Bảng vẽ tự do sáng tạo
   FREE_DRAW_TEMPLATE
 ];
 

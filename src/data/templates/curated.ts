@@ -1,28 +1,86 @@
 import { ColoringTemplate } from '../../types';
 
 export const CURATED_TEMPLATES: ColoringTemplate[] = [
+  // CÁC HÌNH ĐẶC SẮC DÀNH CHO BÉ TRAI (BOY HEROES & ADVENTURE)
   {
-    id: 'curated-pony',
-    titleVi: 'Bé Ngựa Pony Thần Tiên',
-    titleEn: 'Magical Little Pony',
+    id: 'curated-shark',
+    titleVi: 'Hàm Cá Mập Trắng Khổng Lồ',
+    titleEn: 'Great White Shark',
+    category: 'ocean',
+    difficulty: 'medium',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/shark_jaws.svg',
+    tags: ['cá mập', 'shark', 'sát thủ đại dương', 'biển', 'bé trai']
+  },
+  {
+    id: 'curated-knight',
+    titleVi: 'Hiệp Sĩ Cưỡi Ngựa Chiến Đấu',
+    titleEn: 'Brave Knight on Horse',
+    category: 'fairytale',
+    difficulty: 'hard',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/knight_on_horse.svg',
+    tags: ['hiệp sĩ', 'ngựa chiến', 'knight', 'áo giáp', 'bé trai']
+  },
+  {
+    id: 'curated-ship',
+    titleVi: 'Đại Thủy Thủ Tàu Thủy Hơi Nước',
+    titleEn: 'Great Steamship Edmund',
+    category: 'vehicles',
+    difficulty: 'hard',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/s_s_edmund_fitzgerald.svg',
+    tags: ['tàu thủy', 'tàu chiến', 'hàng hải', 'ship', 'bé trai']
+  },
+  {
+    id: 'curated-fire-dragon',
+    titleVi: 'Rồng Lửa Khổng Lồ Phun Lửa',
+    titleEn: 'Mighty Fire Dragon',
+    category: 'fairytale',
+    difficulty: 'hard',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/creazilla_dragon.svg',
+    tags: ['rồng lửa', 'dragon', 'huyền thoại', 'bé trai']
+  },
+  {
+    id: 'curated-surfer',
+    titleVi: 'Cậu Bé Lướt Sóng Biển',
+    titleEn: 'Surfer Boy on Waves',
+    category: 'ocean',
+    difficulty: 'medium',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/boy_surfer.svg',
+    tags: ['lướt sóng', 'thể thao', 'surfer', 'biển', 'bé trai']
+  },
+  {
+    id: 'curated-airplane',
+    titleVi: 'Máy Bay Bầu Trời',
+    titleEn: 'Sky Airplane',
+    category: 'vehicles',
+    difficulty: 'easy',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/a_is_for_airplane.svg',
+    tags: ['máy bay', 'airplane', 'phi cơ']
+  },
+  {
+    id: 'curated-dragon',
+    titleVi: 'Chú Rồng Con Cổ Tích',
+    titleEn: 'Friendly Dragon',
     category: 'fairytale',
     difficulty: 'medium',
     viewBox: '0 0 500 500',
     regions: [],
-    imageUrl: '/templates/little_pony.svg',
-    tags: ['pony', 'ngựa', 'kỳ lân', 'cổ tích', 'chibi']
+    imageUrl: '/templates/dragon.svg',
+    tags: ['rồng', 'dragon', 'cổ tích']
   },
-  {
-    id: 'curated-princess',
-    titleVi: 'Công Chúa Chibi Xinh Đẹp',
-    titleEn: 'Sweet Chibi Princess',
-    category: 'fairytale',
-    difficulty: 'medium',
-    viewBox: '0 0 500 500',
-    regions: [],
-    imageUrl: '/templates/chibi_princess.svg',
-    tags: ['công chúa', 'princess', 'vương miện', 'chibi']
-  },
+
+  // THẾ GIỚI ĐỘNG VẬT & THIÊN NHIÊN HOẠT HÌNH
   {
     id: 'curated-bear',
     titleVi: 'Gấu Bông Cầm Hoa Dễ Thương',
@@ -35,15 +93,15 @@ export const CURATED_TEMPLATES: ColoringTemplate[] = [
     tags: ['gấu', 'bear', 'teddy', 'hoa']
   },
   {
-    id: 'curated-butterfly',
-    titleVi: 'Bươm Bướm Khoe Sắc',
-    titleEn: 'Cute Butterfly',
-    category: 'nature',
+    id: 'curated-cat',
+    titleVi: 'Mèo Con Ngủ Ngoan',
+    titleEn: 'Sleeping Kitten',
+    category: 'animals',
     difficulty: 'easy',
     viewBox: '0 0 500 500',
     regions: [],
-    imageUrl: '/templates/cute_butterfly.svg',
-    tags: ['bướm', 'butterfly', 'thiên nhiên']
+    imageUrl: '/templates/sleeping_cat.svg',
+    tags: ['mèo', 'cat', 'kitten']
   },
   {
     id: 'curated-cow',
@@ -55,17 +113,6 @@ export const CURATED_TEMPLATES: ColoringTemplate[] = [
     regions: [],
     imageUrl: '/templates/cute_cow.svg',
     tags: ['bò sữa', 'cow', 'nông trại']
-  },
-  {
-    id: 'curated-cat',
-    titleVi: 'Mèo Con Ngủ Ngoan',
-    titleEn: 'Sleeping Kitten',
-    category: 'animals',
-    difficulty: 'easy',
-    viewBox: '0 0 500 500',
-    regions: [],
-    imageUrl: '/templates/sleeping_cat.svg',
-    tags: ['mèo', 'cat', 'kitten']
   },
   {
     id: 'curated-owl',
@@ -90,6 +137,17 @@ export const CURATED_TEMPLATES: ColoringTemplate[] = [
     tags: ['thỏ', 'bunny', 'trứng']
   },
   {
+    id: 'curated-frog',
+    titleVi: 'Chú Ếch Con Ca Hát',
+    titleEn: 'Singing Little Frog',
+    category: 'animals',
+    difficulty: 'easy',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/cartoon_frog.svg',
+    tags: ['ếch', 'frog', 'hát']
+  },
+  {
     id: 'curated-jellyfish',
     titleVi: 'Sứa Biển Lấp Lánh',
     titleEn: 'Ocean Jellyfish',
@@ -101,15 +159,50 @@ export const CURATED_TEMPLATES: ColoringTemplate[] = [
     tags: ['sứa biển', 'jellyfish', 'đại dương']
   },
   {
-    id: 'curated-airplane',
-    titleVi: 'Máy Bay Bầu Trời',
-    titleEn: 'Sky Airplane',
-    category: 'vehicles',
+    id: 'curated-butterfly',
+    titleVi: 'Bươm Bướm Khoe Sắc',
+    titleEn: 'Cute Butterfly',
+    category: 'nature',
     difficulty: 'easy',
     viewBox: '0 0 500 500',
     regions: [],
-    imageUrl: '/templates/a_is_for_airplane.svg',
-    tags: ['máy bay', 'airplane', 'phi cơ']
+    imageUrl: '/templates/cute_butterfly.svg',
+    tags: ['bướm', 'butterfly', 'thiên nhiên']
+  },
+  {
+    id: 'curated-flowers',
+    titleVi: 'Vườn Hoa Mùa Xuân',
+    titleEn: 'Spring Flowers',
+    category: 'nature',
+    difficulty: 'medium',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/spring_flowers.svg',
+    tags: ['hoa', 'flowers', 'mùa xuân']
+  },
+
+  // CỔ TÍCH & ĐỒ NGỌT
+  {
+    id: 'curated-pony',
+    titleVi: 'Bé Ngựa Pony Thần Tiên',
+    titleEn: 'Magical Little Pony',
+    category: 'fairytale',
+    difficulty: 'medium',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/little_pony.svg',
+    tags: ['pony', 'ngựa', 'kỳ lân', 'cổ tích', 'chibi']
+  },
+  {
+    id: 'curated-princess',
+    titleVi: 'Công Chúa Chibi Xinh Đẹp',
+    titleEn: 'Sweet Chibi Princess',
+    category: 'fairytale',
+    difficulty: 'medium',
+    viewBox: '0 0 500 500',
+    regions: [],
+    imageUrl: '/templates/chibi_princess.svg',
+    tags: ['công chúa', 'princess', 'vương miện', 'chibi']
   },
   {
     id: 'curated-cake',
@@ -132,38 +225,5 @@ export const CURATED_TEMPLATES: ColoringTemplate[] = [
     regions: [],
     imageUrl: '/templates/d_is_for_donut.svg',
     tags: ['bánh donut', 'donut', 'đồ ngọt']
-  },
-  {
-    id: 'curated-frog',
-    titleVi: 'Chú Ếch Con Ca Hát',
-    titleEn: 'Singing Little Frog',
-    category: 'animals',
-    difficulty: 'easy',
-    viewBox: '0 0 500 500',
-    regions: [],
-    imageUrl: '/templates/cartoon_frog.svg',
-    tags: ['ếch', 'frog', 'hát']
-  },
-  {
-    id: 'curated-flowers',
-    titleVi: 'Vườn Hoa Mùa Xuân',
-    titleEn: 'Spring Flowers',
-    category: 'nature',
-    difficulty: 'medium',
-    viewBox: '0 0 500 500',
-    regions: [],
-    imageUrl: '/templates/spring_flowers.svg',
-    tags: ['hoa', 'flowers', 'mùa xuân']
-  },
-  {
-    id: 'curated-dragon',
-    titleVi: 'Chú Rồng Con Cổ Tích',
-    titleEn: 'Friendly Dragon',
-    category: 'fairytale',
-    difficulty: 'medium',
-    viewBox: '0 0 500 500',
-    regions: [],
-    imageUrl: '/templates/dragon.svg',
-    tags: ['rồng', 'dragon', 'cổ tích']
   }
 ];

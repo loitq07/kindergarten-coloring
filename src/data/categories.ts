@@ -2,99 +2,115 @@ import { Category, StampItem } from '../types';
 
 export const CATEGORIES: Category[] = [
   {
-    id: 'animals',
-    nameVi: 'Động vật cưng',
-    nameEn: 'Cute Animals',
-    icon: '🦁',
-    color: '#FF9F1C',
-    bgColor: '#FFF3E0',
-    descriptionVi: 'Sư tử, cún con, mèo máy, thỏ ngọc, gấu trúc...'
-  },
-  {
-    id: 'ocean',
-    nameVi: 'Đại dương xanh',
-    nameEn: 'Ocean Life',
-    icon: '🐬',
-    color: '#06D6A0',
-    bgColor: '#E1FBF3',
-    descriptionVi: 'Cá heo, cá voi, rùa biển, bạch tuộc, sao biển...'
+    id: 'dinosaurs',
+    nameVi: 'Khủng long bạo chúa',
+    nameEn: 'Mighty Dinosaurs',
+    icon: '🦖',
+    color: '#10B981',
+    bgColor: '#ECFDF5',
+    descriptionVi: 'Bạo chúa T-Rex gầm vang, ba sừng Triceratops, thằn lằn bay...'
   },
   {
     id: 'vehicles',
-    nameVi: 'Xe & Phương tiện',
-    nameEn: 'Cool Vehicles',
-    icon: '🚗',
-    color: '#EF476F',
-    bgColor: '#FDECEF',
-    descriptionVi: 'Ô tô, xe buýt, xe cứu hỏa, máy bay, tàu hỏa...'
+    nameVi: 'Siêu xe & Công trình',
+    nameEn: 'Super Cars & Trucks',
+    icon: '🏎️',
+    color: '#EF4444',
+    bgColor: '#FEF2F2',
+    descriptionVi: 'Siêu xe đua F1, xe tải quái vật bánh to, máy múc công trình, phi cơ...'
   },
   {
-    id: 'dinosaurs',
-    nameVi: 'Khủng long bé',
-    nameEn: 'Dino World',
-    icon: '🦖',
-    color: '#52B788',
-    bgColor: '#EAF7EE',
-    descriptionVi: 'T-Rex tí hon, khủng long cổ dài, ba sừng ngộ nghĩnh...'
+    id: 'robots',
+    nameVi: 'Robot & Vũ trụ',
+    nameEn: 'Robots & Space',
+    icon: '🤖',
+    color: '#3B82F6',
+    bgColor: '#EFF6FF',
+    descriptionVi: 'Robot chiến binh Titan, tên lửa Sao Hỏa, xe cảnh sát tuần tra...'
+  },
+  {
+    id: 'ocean',
+    nameVi: 'Đại dương & Cá mập',
+    nameEn: 'Ocean & Sharks',
+    icon: '🦈',
+    color: '#06B6D4',
+    bgColor: '#ECFEFF',
+    descriptionVi: 'Hàm cá mập trắng, cậu bé lướt sóng, sứa biển phát sáng...'
+  },
+  {
+    id: 'animals',
+    nameVi: 'Động vật đáng yêu',
+    nameEn: 'Cute Animals',
+    icon: '🦁',
+    color: '#F59E0B',
+    bgColor: '#FFFBEB',
+    descriptionVi: 'Gấu bông, mèo con, bò sữa, cú mèo, thỏ ngọc, chú ếch...'
   },
   {
     id: 'fairytale',
-    nameVi: 'Cổ tích & Kỳ lân',
-    nameEn: 'Fairy Tale',
-    icon: '🦄',
-    color: '#B5179E',
-    bgColor: '#FAE6F5',
-    descriptionVi: 'Kỳ lân cầu vồng, lâu đài nguy nga, công chúa nhỏ...'
-  },
-  {
-    id: 'fruits',
-    nameVi: 'Trái cây & Bánh ngọt',
-    nameEn: 'Yummy Treats',
-    icon: '🍓',
-    color: '#FF477E',
-    bgColor: '#FFEBF1',
-    descriptionVi: 'Kem ốc quế, dâu tây, dưa hấu, bánh kem cupcake...'
-  },
-  {
-    id: 'space',
-    nameVi: 'Vũ trụ diệu kỳ',
-    nameEn: 'Space Odyssey',
-    icon: '🚀',
-    color: '#4361EE',
-    bgColor: '#ECEFFE',
-    descriptionVi: 'Phi hành gia nhí, tên lửa, đĩa bay người ngoài hành tinh...'
+    nameVi: 'Hiệp sĩ & Cổ tích',
+    nameEn: 'Knights & Fairy Tales',
+    icon: '⚔️',
+    color: '#8B5CF6',
+    bgColor: '#F5F3FF',
+    descriptionVi: 'Hiệp sĩ giáp sắt, rồng lửa khổng lồ, ngựa thần kỳ lân, công chúa...'
   },
   {
     id: 'nature',
-    nameVi: 'Thiên nhiên & Hoa',
+    nameVi: 'Thiên nhiên & Hoa cỏ',
     nameEn: 'Nature & Flowers',
     icon: '🌸',
-    color: '#F77F00',
-    bgColor: '#FEF0DF',
-    descriptionVi: 'Cầu vồng rực rỡ, nhà nấm cổ tích, hoa hướng dương...'
+    color: '#14B8A6',
+    bgColor: '#F0FDFA',
+    descriptionVi: 'Bươm bướm khoe sắc, vườn hoa mùa xuân rực rỡ...'
+  },
+  {
+    id: 'fruits',
+    nameVi: 'Bánh ngọt & Đồ ăn',
+    nameEn: 'Yummy Treats',
+    icon: '🎂',
+    color: '#EC4899',
+    bgColor: '#FDF2F8',
+    descriptionVi: 'Bánh kem sinh nhật, bánh donut kẹo ngọt...'
   }
 ];
 
 export const STAMPS: StampItem[] = [
+  { id: 'fire', emoji: '🔥', nameVi: 'Ngọn lửa nhiệt huyết', nameEn: 'Fire' },
   { id: 'star', emoji: '⭐', nameVi: 'Ngôi sao vàng', nameEn: 'Star' },
-  { id: 'heart', emoji: '💖', nameVi: 'Trái tim hồng', nameEn: 'Heart' },
-  { id: 'rainbow', emoji: '🌈', nameVi: 'Cầu vồng', nameEn: 'Rainbow' },
-  { id: 'crown', emoji: '👑', nameVi: 'Vương miện', nameEn: 'Crown' },
-  { id: 'sparkles', emoji: '✨', nameVi: 'Lấp lánh', nameEn: 'Sparkles' },
-  { id: 'flower', emoji: '🌸', nameVi: 'Hoa anh đào', nameEn: 'Flower' },
-  { id: 'sun', emoji: '☀️', nameVi: 'Mặt trời', nameEn: 'Sun' },
-  { id: 'butterfly', emoji: '🦋', nameVi: 'Bướm xinh', nameEn: 'Butterfly' },
-  { id: 'paw', emoji: '🐾', nameVi: 'Dấu chân cún', nameEn: 'Paw Print' },
-  { id: 'music', emoji: '🎵', nameVi: 'Nốt nhạc', nameEn: 'Music' },
-  { id: 'candy', emoji: '🍭', nameVi: 'Kẹo mút', nameEn: 'Lollipop' },
-  { id: 'balloon', emoji: '🎈', nameVi: 'Bóng bay', nameEn: 'Balloon' },
-  { id: 'diamond', emoji: '💎', nameVi: 'Kim cương', nameEn: 'Diamond' },
-  { id: 'apple', emoji: '🍎', nameVi: 'Quả táo', nameEn: 'Apple' },
-  { id: 'clover', emoji: '🍀', nameVi: 'Cỏ 4 lá', nameEn: 'Clover' },
-  { id: 'medal', emoji: '🏅', nameVi: 'Huy chương', nameEn: 'Medal' }
+  { id: 'trophy', emoji: '🏆', nameVi: 'Cúp vô địch', nameEn: 'Trophy' },
+  { id: 'medal', emoji: '🏅', nameVi: 'Huy chương vàng', nameEn: 'Medal' },
+  { id: 'lightning', emoji: '⚡', nameVi: 'Tia sét siêu tốc', nameEn: 'Lightning' },
+  { id: 'rocket', emoji: '🚀', nameVi: 'Tên lửa vũ trụ', nameEn: 'Rocket' },
+  { id: 'dino', emoji: '🦖', nameVi: 'Khủng long xanh', nameEn: 'Dino' },
+  { id: 'car', emoji: '🏎️', nameVi: 'Xe đua tốc độ', nameEn: 'Race Car' },
+  { id: 'robot', emoji: '🤖', nameVi: 'Robot thông minh', nameEn: 'Robot' },
+  { id: 'crown', emoji: '👑', nameVi: 'Vương miện dũng sĩ', nameEn: 'Crown' },
+  { id: 'heart', emoji: '💖', nameVi: 'Trái tim yêu thương', nameEn: 'Heart' },
+  { id: 'rainbow', emoji: '🌈', nameVi: 'Cầu vồng rực rỡ', nameEn: 'Rainbow' },
+  { id: 'sparkles', emoji: '✨', nameVi: 'Ánh sao lấp lánh', nameEn: 'Sparkles' },
+  { id: 'balloon', emoji: '🎈', nameVi: 'Bóng bay sắc màu', nameEn: 'Balloon' },
+  { id: 'paw', emoji: '🐾', nameVi: 'Dấu chân thú', nameEn: 'Paw Print' },
+  { id: 'diamond', emoji: '💎', nameVi: 'Kim cương xanh', nameEn: 'Diamond' }
 ];
 
 export const PALETTES = [
+  {
+    nameVi: 'Siêu anh hùng & Chiến binh',
+    nameEn: 'Super Heroes',
+    colors: [
+      '#E63946', '#D90429', '#FFB703', '#FB8500', '#023E8A', '#0077B6',
+      '#0096C7', '#2A9D8F', '#264653', '#6A040F', '#370617', '#14213D'
+    ]
+  },
+  {
+    nameVi: 'Khủng long tiền sử',
+    nameEn: 'Prehistoric Dino',
+    colors: [
+      '#2D6A4F', '#40916C', '#52B788', '#74C69D', '#DDA15E', '#BC6C25',
+      '#99582A', '#6B705C', '#A5A58D', '#B7B7A4', '#FFE6A7', '#6F1D1B'
+    ]
+  },
   {
     nameVi: 'Cầu vồng rực rỡ',
     nameEn: 'Vibrant Rainbow',
@@ -109,22 +125,6 @@ export const PALETTES = [
     colors: [
       '#FFB5A7', '#FCD5CE', '#F8EDEB', '#F9DCC4', '#FEC89A', '#D8E2DC',
       '#FFE5D9', '#FFCAD4', '#B7E4C7', '#A0C4FF', '#BDB2FF', '#FFC6FF'
-    ]
-  },
-  {
-    nameVi: 'Tự nhiên & Trái đất',
-    nameEn: 'Earth & Nature',
-    colors: [
-      '#606C38', '#283618', '#FEFAE0', '#DDA15E', '#BC6C25', '#8C52FF',
-      '#495057', '#6C757D', '#ADB5BD', '#CED4DA', '#343A40', '#212529'
-    ]
-  },
-  {
-    nameVi: 'Màu cơ bản cho bé',
-    nameEn: 'Classic Colors',
-    colors: [
-      '#E63946', '#F1FAEE', '#A8DADC', '#457B9D', '#1D3557', '#F4A261',
-      '#E76F51', '#2A9D8F', '#E9C46A', '#9B5DE5', '#00BBF9', '#00F5D4'
     ]
   }
 ];
