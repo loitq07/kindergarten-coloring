@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { ColoringTemplate, ToolType, DrawingHistoryStep } from '../types';
 import { sound } from '../utils/sound';
+import { floodFill } from '../utils/floodFill';
 import { ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 
 interface CanvasAreaProps {
@@ -92,6 +93,24 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
     updateCanvasSize();
   }, [updateCanvasSize]);
 
+  // Load raster image onto canvas if template is image-based
+  useEffect(() => {
+    if (template.imageUrl && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.clearRect(0, 0, 500, 500);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, 500, 500);
+        ctx.drawImage(img, 0, 0, 500, 500);
+      };
+      img.src = template.imageUrl;
+    }
+  }, [template.id, template.imageUrl]);
+
   // Convert client coordinates to 0..500 SVG/Canvas coordinates
   const getCoordinates = (e: React.PointerEvent | PointerEvent) => {
     if (!svgRef.current) return { x: 0, y: 0 };
@@ -129,6 +148,19 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
 
     // 1. FILL TOOL MODE
     if (currentTool === 'fill') {
+      if (template.imageUrl) {
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext('2d');
+        if (ctx) {
+          const success = floodFill(ctx, x, y, currentColor);
+          if (success) {
+            sound.playFill();
+            recordHistory();
+          }
+        }
+        return;
+      }
+
       // Find which SVG path was clicked
       const target = document.elementFromPoint(e.clientX, e.clientY);
       const regionId = target?.getAttribute('data-region-id');
@@ -484,7 +516,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
           onPointerUp={stopDrawing}
           onPointerCancel={stopDrawing}
           className={`absolute inset-0 w-full h-full z-10 touch-none ${
-            currentTool === 'fill' ? 'pointer-events-none' : 'cursor-crosshair pointer-events-auto'
+            currentTool === 'fill' && !template.imageUrl ? 'pointer-events-none' : 'cursor-crosshair pointer-events-auto'
           }`}
         />
 

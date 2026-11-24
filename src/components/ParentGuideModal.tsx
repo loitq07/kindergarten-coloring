@@ -25,7 +25,7 @@ export const ParentGuideModal: React.FC<ParentGuideModalProps> = ({
               📖
             </div>
             <div>
-              <h2 className="font-['Fredoka',sans-serif] text-xl font-bold text-amber-950">
+              <h2 className="font-['Baloo_2',sans-serif] text-xl font-bold text-amber-950">
                 {lang === 'vi' ? 'Hướng Dẫn Cho Phụ Huynh & Bé' : 'Parents & iPad Guide'}
               </h2>
               <p className="text-xs text-amber-800">

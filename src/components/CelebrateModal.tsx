@@ -72,7 +72,7 @@ export const CelebrateModal: React.FC<CelebrateModalProps> = ({
           🏆
         </div>
 
-        <h2 className="font-['Fredoka',sans-serif] text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-pink-500 via-amber-500 to-purple-500 bg-clip-text text-transparent mb-1">
+        <h2 className="font-['Baloo_2',sans-serif] text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-pink-500 via-amber-500 to-purple-500 bg-clip-text text-transparent mb-1">
           {lang === 'vi' ? 'Hoan Hô Bé Yêu!' : 'Super Artist!'}
         </h2>
 

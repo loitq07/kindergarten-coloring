@@ -32,7 +32,7 @@ export const MyArtGalleryModal: React.FC<MyArtGalleryModalProps> = ({
               <ImageIcon className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-['Fredoka',sans-serif] text-xl font-bold text-amber-950">
+              <h2 className="font-['Baloo_2',sans-serif] text-xl font-bold text-amber-950">
                 {lang === 'vi' ? 'Bộ Sưu Tập Tranh Của Bé' : "My Masterpieces Gallery"}
               </h2>
               <p className="text-xs text-amber-700">

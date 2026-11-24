@@ -41,6 +41,7 @@ export interface ColoringTemplate {
   // Static outline/lines that render on top so lines stay sharp
   outlinePaths?: string[];
   tags: string[];
+  imageUrl?: string;
 }
 
 export interface StampItem {

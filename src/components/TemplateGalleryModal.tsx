@@ -3,7 +3,7 @@ import { CATEGORIES } from '../data/categories';
 import { ALL_TEMPLATES } from '../data/templates';
 import { ColoringTemplate } from '../types';
 import { sound } from '../utils/sound';
-import { X, Search, Sparkles, Pencil } from 'lucide-react';
+import { X, Search, Sparkles, Pencil, Upload } from 'lucide-react';
 
 interface TemplateGalleryModalProps {
   isOpen: boolean;
@@ -22,6 +22,30 @@ export const TemplateGalleryModal: React.FC<TemplateGalleryModalProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const customTemplate: ColoringTemplate = {
+        id: `custom-${Date.now()}`,
+        titleVi: file.name.replace(/\.[^/.]+$/, ''),
+        titleEn: file.name.replace(/\.[^/.]+$/, ''),
+        category: 'custom',
+        difficulty: 'medium',
+        viewBox: '0 0 500 500',
+        regions: [],
+        imageUrl: dataUrl,
+        tags: ['custom', 'upload']
+      };
+      sound.playVictory();
+      onSelectTemplate(customTemplate);
+      onClose();
+    };
+    reader.readAsDataURL(file);
+  };
 
   if (!isOpen) return null;
 
@@ -45,7 +69,7 @@ export const TemplateGalleryModal: React.FC<TemplateGalleryModalProps> = ({
               <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="font-['Fredoka',sans-serif] text-xl font-bold text-amber-950">
+              <h2 className="font-['Baloo_2',sans-serif] text-xl font-bold text-amber-950">
                 {lang === 'vi' ? 'Bộ Sưu Tập Tranh Tô Màu' : 'Coloring Picture Library'}
               </h2>
               <p className="text-xs text-amber-700">
@@ -127,6 +151,23 @@ export const TemplateGalleryModal: React.FC<TemplateGalleryModalProps> = ({
 
         {/* Templates Grid */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+          {/* Upload Custom Coloring Page Card */}
+          <label className="btn-kid-3d bg-gradient-to-br from-pink-50 via-purple-50 to-amber-50 rounded-3xl p-3 border-2 border-dashed border-purple-400 hover:border-purple-600 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:scale-102 shadow-sm text-center">
+            <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+            <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center shadow-inner">
+              <Upload className="w-6 h-6 animate-bounce-gentle" />
+            </div>
+            <div className="font-extrabold text-xs sm:text-sm text-purple-950 font-['Baloo_2',sans-serif]">
+              {lang === 'vi' ? 'Tải Tranh Mẫu Lên' : 'Upload Picture'}
+            </div>
+            <div className="text-[10px] text-purple-700 font-bold leading-tight">
+              {lang === 'vi' ? 'Chọn ảnh Elsa, Doraemon...' : 'Upload any coloring page'}
+            </div>
+            <span className="text-[10px] bg-purple-200 text-purple-900 font-black px-2 py-0.5 rounded-full uppercase">
+              {lang === 'vi' ? 'Tải Lên' : 'Upload'}
+            </span>
+          </label>
+
           {filteredTemplates.map(tmpl => {
             const isCurrent = tmpl.id === currentTemplateId;
             const isFreeDraw = tmpl.id === 'free-draw';

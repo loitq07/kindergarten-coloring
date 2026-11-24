@@ -29,7 +29,7 @@ export const StampsSelector: React.FC<StampsSelectorProps> = ({
             <div className="w-8 h-8 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center">
               <Sparkles className="w-5 h-5" />
             </div>
-            <h3 className="font-['Fredoka',sans-serif] text-lg font-bold text-amber-950">
+            <h3 className="font-['Baloo_2',sans-serif] text-lg font-bold text-amber-950">
               {lang === 'vi' ? 'Chọn Con Dấu Ngộ Nghĩnh' : 'Choose Fun Stamps'}
             </h3>
           </div>

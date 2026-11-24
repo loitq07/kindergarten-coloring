@@ -1,90 +1,51 @@
 import { ColoringTemplate } from '../../types';
 
 export const FRUIT_TEMPLATES: ColoringTemplate[] = [
-  // 1. LY KEM ỐC QUẾ 3 TẦNG
+  // 1. LY KEM THIÊN ĐƯỜNG CẦU VỒNG (FANTASY SUNDAE)
   {
-    id: 'fruit-icecream',
-    titleVi: 'Ly Kem Ốc Quế Mát Lạnh',
-    titleEn: 'Triple Scoop Ice Cream Cone',
-    category: 'fruits',
-    difficulty: 'easy',
-    viewBox: '0 0 500 500',
-    tags: ['kem', 'ice cream', 'đồ ngọt', 'ốc quế'],
-    regions: [
-      { id: 'ice-cherry', labelVi: 'Quả cherry đỏ trên cùng', d: 'M 230,85 A 20,20 0 1,0 270,85 A 20,20 0 1,0 230,85 Z' },
-      { id: 'ice-cherry-stem', labelVi: 'Cuống cherry', d: 'M 250,65 C 265,40 290,45 295,50 L 290,52 C 285,48 265,45 250,67 Z' },
-      { id: 'ice-scoop-top', labelVi: 'Viên kem tầng 1', d: 'M 200,160 C 200,100 300,100 300,160 C 310,165 310,180 295,185 C 280,185 270,175 250,180 C 230,175 220,185 205,185 C 190,180 190,165 200,160 Z' },
-      { id: 'ice-scoop-mid', labelVi: 'Viên kem tầng 2', d: 'M 180,210 C 180,170 320,170 320,210 C 330,220 330,240 310,245 C 290,245 275,230 250,235 C 225,230 210,245 190,245 C 170,240 170,220 180,210 Z' },
-      { id: 'ice-scoop-bot', labelVi: 'Viên kem tầng 3', d: 'M 160,260 C 160,225 340,225 340,260 C 350,275 350,295 330,305 C 310,305 290,290 250,295 C 210,290 190,305 170,305 C 150,295 150,275 160,260 Z' },
-      { id: 'ice-cone', labelVi: 'Bánh quế giòn tan', d: 'M 175,295 L 325,295 L 250,470 Z' },
-      { id: 'ice-sprinkle-1', labelVi: 'Hạt cốm ngọt 1', d: 'M 215,120 L 230,125 L 227,133 L 212,128 Z' },
-      { id: 'ice-sprinkle-2', labelVi: 'Hạt cốm ngọt 2', d: 'M 270,130 L 285,125 L 287,133 L 272,138 Z' },
-      { id: 'ice-sprinkle-3', labelVi: 'Hạt cốm ngọt 3', d: 'M 235,145 L 250,145 L 250,153 L 235,153 Z' }
-    ]
-  },
-
-  // 2. DÂU TÂY MỌNG NƯỚC CƯỜI TƯƠI
-  {
-    id: 'fruit-strawberry',
-    titleVi: 'Trái Dâu Tây Mọng Nước',
-    titleEn: 'Smiling Strawberry',
-    category: 'fruits',
-    difficulty: 'easy',
-    viewBox: '0 0 500 500',
-    tags: ['dâu tây', 'strawberry', 'hoa quả'],
-    regions: [
-      { id: 'straw-calyx', labelVi: 'Tai lá xanh', d: 'M 250,130 C 230,70 170,80 180,130 C 140,110 120,160 170,170 C 200,160 230,165 250,160 C 270,165 300,160 330,170 C 380,160 360,110 320,130 C 330,80 270,70 250,130 Z' },
-      { id: 'straw-stem', labelVi: 'Cuống dâu lá', d: 'M 245,60 C 240,40 260,35 255,60 Z' },
-      { id: 'straw-body', labelVi: 'Thân dâu đỏ tươi', d: 'M 150,180 C 120,240 160,380 250,440 C 340,380 380,240 350,180 C 310,160 190,160 150,180 Z' },
-      { id: 'straw-eye-l', labelVi: 'Mắt tròn trái', d: 'M 205,245 A 9,9 0 1,0 223,245 A 9,9 0 1,0 205,245 Z' },
-      { id: 'straw-eye-r', labelVi: 'Mắt tròn phải', d: 'M 277,245 A 9,9 0 1,0 295,245 A 9,9 0 1,0 277,245 Z' },
-      { id: 'straw-cheek-l', labelVi: 'Má hồng trái', d: 'M 185,270 A 12,8 0 1,0 209,270 A 12,8 0 1,0 185,270 Z' },
-      { id: 'straw-cheek-r', labelVi: 'Má hồng phải', d: 'M 291,270 A 12,8 0 1,0 315,270 A 12,8 0 1,0 291,270 Z' },
-      { id: 'straw-seed-1', labelVi: 'Hạt dâu 1', d: 'M 210,320 A 4,6 0 1,0 218,320 A 4,6 0 1,0 210,320 Z' },
-      { id: 'straw-seed-2', labelVi: 'Hạt dâu 2', d: 'M 250,335 A 4,6 0 1,0 258,335 A 4,6 0 1,0 250,335 Z' },
-      { id: 'straw-seed-3', labelVi: 'Hạt dâu 3', d: 'M 290,320 A 4,6 0 1,0 298,320 A 4,6 0 1,0 290,320 Z' },
-      { id: 'straw-seed-4', labelVi: 'Hạt dâu 4', d: 'M 230,375 A 4,6 0 1,0 238,375 A 4,6 0 1,0 230,375 Z' },
-      { id: 'straw-seed-5', labelVi: 'Hạt dâu 5', d: 'M 270,375 A 4,6 0 1,0 278,375 A 4,6 0 1,0 270,375 Z' }
-    ]
-  },
-
-  // 3. MIẾNG DƯA HẤU MÁT LẠNH
-  {
-    id: 'fruit-watermelon',
-    titleVi: 'Miếng Dưa Hấu Mát Lạnh',
-    titleEn: 'Fresh Watermelon Slice',
-    category: 'fruits',
-    difficulty: 'easy',
-    viewBox: '0 0 500 500',
-    tags: ['dưa hấu', 'watermelon', 'trái cây'],
-    regions: [
-      { id: 'wm-rind-green', labelVi: 'Vỏ xanh sọc ngoài', d: 'M 60,200 C 100,420 400,420 440,200 L 415,215 C 380,390 120,390 85,215 Z' },
-      { id: 'wm-rind-white', labelVi: 'Cùi trắng thơm giòn', d: 'M 85,215 C 120,390 380,390 415,215 L 400,225 C 365,370 135,370 100,225 Z' },
-      { id: 'wm-flesh', labelVi: 'Ruột dưa đỏ mọng', d: 'M 100,225 C 135,370 365,370 400,225 L 100,225 Z' },
-      { id: 'wm-seed-1', labelVi: 'Hạt dưa 1', d: 'M 170,265 A 6,10 0 1,0 182,265 A 6,10 0 1,0 170,265 Z' },
-      { id: 'wm-seed-2', labelVi: 'Hạt dưa 2', d: 'M 245,280 A 6,10 0 1,0 257,280 A 6,10 0 1,0 245,280 Z' },
-      { id: 'wm-seed-3', labelVi: 'Hạt dưa 3', d: 'M 320,265 A 6,10 0 1,0 332,265 A 6,10 0 1,0 320,265 Z' },
-      { id: 'wm-seed-4', labelVi: 'Hạt dưa 4', d: 'M 210,320 A 6,10 0 1,0 222,320 A 6,10 0 1,0 210,320 Z' },
-      { id: 'wm-seed-5', labelVi: 'Hạt dưa 5', d: 'M 280,320 A 6,10 0 1,0 292,320 A 6,10 0 1,0 280,320 Z' }
-    ]
-  },
-
-  // 4. BÁNH CUPCAKE NGỌT NGÀO
-  {
-    id: 'fruit-cupcake',
-    titleVi: 'Bánh Cupcake Ngọt Ngào',
-    titleEn: 'Delicious Sweet Cupcake',
+    id: 'fruit-sundae',
+    titleVi: 'Ly Kem Cầu Vồng Ngọt Ngào',
+    titleEn: 'Fantasy Rainbow Sundae',
     category: 'fruits',
     difficulty: 'medium',
     viewBox: '0 0 500 500',
-    tags: ['bánh cupcake', 'bánh ngọt', 'cupcake'],
+    tags: ['kem', 'ice cream', 'sundae', 'đồ ngọt'],
     regions: [
-      { id: 'cup-cherry', labelVi: 'Quả dâu / cherry trên đỉnh', d: 'M 230,90 A 20,20 0 1,0 270,90 A 20,20 0 1,0 230,90 Z' },
-      { id: 'cup-frosting-top', labelVi: 'Lớp kem xoắn tầng 1', d: 'M 200,160 C 200,110 300,110 300,160 C 315,175 305,200 285,200 C 270,190 250,195 235,190 C 215,200 190,185 200,160 Z' },
-      { id: 'cup-frosting-mid', labelVi: 'Lớp kem xoắn tầng 2', d: 'M 160,220 C 160,180 340,180 340,220 C 360,240 340,270 310,270 C 290,260 270,265 250,260 C 230,265 210,260 190,270 C 160,270 140,240 160,220 Z' },
-      { id: 'cup-base', labelVi: 'Khuôn bánh giấy nướng', d: 'M 170,275 L 330,275 L 305,440 L 195,440 Z' },
-      { id: 'cup-stripe-1', labelVi: 'Nếp gấp giấy 1', d: 'M 205,275 L 220,440 L 235,440 L 220,275 Z' },
-      { id: 'cup-stripe-2', labelVi: 'Nếp gấp giấy 2', d: 'M 280,275 L 265,440 L 280,440 L 295,275 Z' }
+      { id: 'cherry', labelVi: 'Quả cherry đỏ mọng', d: 'M 230,60 A 22,22 0 1,0 274,60 A 22,22 0 1,0 230,60 Z' },
+      { id: 'cherry-stem', labelVi: 'Cuống lá cherry', d: 'M 252,38 C 270,10 300,15 305,22 L 300,25 C 290,20 270,18 252,42 Z' },
+
+      // Wafer Stick (Bánh quế que cắm ly)
+      { id: 'wafer-stick', labelVi: 'Que bánh quế giòn', d: 'M 150,40 L 180,40 L 225,180 L 195,180 Z' },
+      { id: 'wafer-stripe-1', labelVi: 'Sọc kem quế 1', d: 'M 160,65 L 175,65 L 185,100 L 170,100 Z' },
+      { id: 'wafer-stripe-2', labelVi: 'Sọc kem quế 2', d: 'M 180,115 L 195,115 L 205,150 L 190,150 Z' },
+
+      // Whipped Cream Cloud
+      { id: 'whipped-cream', labelVi: 'Lớp kem tươi xoắn trắng', d: 'M 210,120 C 190,80 310,80 290,120 C 315,130 315,155 295,160 C 275,160 260,145 250,150 C 240,145 225,160 205,160 C 185,155 185,130 210,120 Z' },
+
+      // Ice Cream Scoop Left (Strawberry Pink)
+      { id: 'scoop-strawberry', labelVi: 'Viên kem dâu hồng trái', d: 'M 150,195 C 130,140 220,130 235,175 C 220,210 160,225 150,195 Z' },
+
+      // Ice Cream Scoop Right (Vanilla Yellow)
+      { id: 'scoop-vanilla', labelVi: 'Viên kem vani vàng phải', d: 'M 265,175 C 280,130 370,140 350,195 C 340,225 280,210 265,175 Z' },
+
+      // Ice Cream Scoop Center (Chocolate)
+      { id: 'scoop-center', labelVi: 'Viên kem socola giữa', d: 'M 180,180 C 180,140 320,140 320,180 C 340,210 330,245 300,245 C 275,235 250,240 225,235 C 195,245 170,210 180,180 Z' },
+
+      // Chocolate Drizzle Drops
+      { id: 'choc-drip-1', labelVi: 'Giọt sốt socola chảy 1', d: 'M 205,210 C 200,250 225,250 220,210 Z' },
+      { id: 'choc-drip-2', labelVi: 'Giọt sốt socola chảy 2', d: 'M 275,210 C 270,260 295,260 290,210 Z' },
+
+      // Rainbow Sprinkles
+      { id: 'sprinkle-1', labelVi: 'Hạt cốm màu 1', d: 'M 220,160 L 235,165 L 232,173 L 217,168 Z' },
+      { id: 'sprinkle-2', labelVi: 'Hạt cốm màu 2', d: 'M 270,165 L 285,160 L 287,168 L 272,173 Z' },
+
+      // Glass Sundae Cup
+      { id: 'glass-bowl', labelVi: 'Thân ly thủy tinh trong suốt', d: 'M 140,230 L 360,230 C 350,330 280,360 265,360 L 265,420 L 235,420 L 235,360 C 220,360 150,330 140,230 Z' },
+      { id: 'glass-base', labelVi: 'Chân đế ly kem', d: 'M 190,420 L 310,420 C 320,455 180,455 190,420 Z' },
+
+      // Sparkles around
+      { id: 'sparkle-left', labelVi: 'Ánh lấp lánh trái', d: 'M 100,140 L 105,155 L 120,160 L 105,165 L 100,180 L 95,165 L 80,160 L 95,155 Z' },
+      { id: 'sparkle-right', labelVi: 'Ánh lấp lánh phải', d: 'M 400,160 L 405,175 L 420,180 L 405,185 L 400,200 L 395,185 L 380,180 L 395,175 Z' }
     ]
   }
 ];

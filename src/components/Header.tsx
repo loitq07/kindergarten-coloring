@@ -49,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
             <Palette className="w-6 h-6 sm:w-7 sm:h-7" />
           </div>
           <div className="hidden md:block">
-            <h1 className="font-['Fredoka',sans-serif] text-lg sm:text-xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-amber-500 bg-clip-text text-transparent leading-tight">
+            <h1 className="font-['Baloo_2',sans-serif] text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-amber-500 bg-clip-text text-transparent leading-tight">
               Bé Tập Tô Màu
             </h1>
             <p className="text-xs text-amber-700 font-medium">
@@ -124,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
             sound.playVictory();
             onOpenCelebrate();
           }}
-          className="btn-kid-3d btn-kid-3d-pink font-['Fredoka',sans-serif] font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl flex items-center gap-1.5 text-xs sm:text-sm animate-pulse-subtle shadow-md"
+          className="btn-kid-3d btn-kid-3d-pink font-['Baloo_2',sans-serif] font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl flex items-center gap-1.5 text-xs sm:text-sm animate-pulse-subtle shadow-md"
         >
           <Sparkles className="w-4 h-4 text-yellow-200 fill-yellow-200" />
           <span>{lang === 'vi' ? 'Hoàn Thành!' : 'Done!'}</span>
