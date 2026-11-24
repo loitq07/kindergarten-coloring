@@ -208,8 +208,16 @@ export const App: React.FC = () => {
         const lineImg = new Image();
         lineImg.crossOrigin = 'anonymous';
         lineImg.onload = () => {
+          const imgW = lineImg.naturalWidth || lineImg.width || 1000;
+          const imgH = lineImg.naturalHeight || lineImg.height || 1000;
+          const scaleFit = Math.min(1000 / imgW, 1000 / imgH);
+          const renderW = Math.round(imgW * scaleFit);
+          const renderH = Math.round(imgH * scaleFit);
+          const offsetX = Math.round((1000 - renderW) / 2);
+          const offsetY = Math.round((1000 - renderH) / 2);
+
           offCtx.globalCompositeOperation = 'multiply';
-          offCtx.drawImage(lineImg, 0, 0, 1000, 1000);
+          offCtx.drawImage(lineImg, offsetX, offsetY, renderW, renderH);
           offCtx.globalCompositeOperation = 'source-over';
           resolve(offscreen.toDataURL('image/png'));
         };

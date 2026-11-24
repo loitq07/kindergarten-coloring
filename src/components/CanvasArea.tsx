@@ -42,6 +42,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
   const outlineImageDataRef = useRef<ImageData | null>(null);
   const activeRegionClipPath = useRef<Path2D | null>(null);
   
@@ -68,11 +69,11 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
   // Sync canvas dimensions
   const updateCanvasSize = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const overlay = overlayCanvasRef.current;
     const width = 500;
     const height = 500;
-    
-    if (canvas.width !== width || canvas.height !== height) {
+
+    if (canvas && (canvas.width !== width || canvas.height !== height)) {
       canvas.width = width;
       canvas.height = height;
       canvas.style.width = '100%';
@@ -83,58 +84,99 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
         ctx.fillRect(0, 0, width, height);
       }
     }
+
+    if (overlay && (overlay.width !== width || overlay.height !== height)) {
+      overlay.width = width;
+      overlay.height = height;
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+    }
   }, []);
 
   useEffect(() => {
     updateCanvasSize();
   }, [updateCanvasSize]);
 
-  // Prepare line-art boundary reference and initialize coloring canvas
+  // Load template image and render onto overlay canvas with exact aspect ratio
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const overlay = overlayCanvasRef.current;
+    if (!canvas || !overlay) return;
+
+    const w = 500;
+    const h = 500;
 
     if (template.imageUrl) {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = () => {
-        // Offscreen canvas to capture exact black outlines for flood fill
-        const offCanvas = document.createElement('canvas');
-        offCanvas.width = 500;
-        offCanvas.height = 500;
-        const offCtx = offCanvas.getContext('2d');
-        if (offCtx) {
-          offCtx.fillStyle = '#FFFFFF';
-          offCtx.fillRect(0, 0, 500, 500);
-          offCtx.drawImage(img, 0, 0, 500, 500);
-          outlineImageDataRef.current = offCtx.getImageData(0, 0, 500, 500);
+        // Calculate exact aspect-ratio fit (contain) inside 500x500
+        const imgW = img.naturalWidth || img.width || 500;
+        const imgH = img.naturalHeight || img.height || 500;
+        const scaleFit = Math.min(w / imgW, h / imgH);
+        const renderW = Math.round(imgW * scaleFit);
+        const renderH = Math.round(imgH * scaleFit);
+        const offsetX = Math.round((w - renderW) / 2);
+        const offsetY = Math.round((h - renderH) / 2);
+
+        // 1. Draw line art onto overlay canvas (Layer 2 on top)
+        overlay.width = w;
+        overlay.height = h;
+        const oCtx = overlay.getContext('2d', { willReadFrequently: true });
+        if (oCtx) {
+          oCtx.clearRect(0, 0, w, h);
+          oCtx.fillStyle = '#FFFFFF';
+          oCtx.fillRect(0, 0, w, h);
+          oCtx.drawImage(img, offsetX, offsetY, renderW, renderH);
+          // Extract exact line art boundary data for flood fill
+          outlineImageDataRef.current = oCtx.getImageData(0, 0, w, h);
         }
 
-        // Initialize user coloring canvas with clean white
-        ctx.clearRect(0, 0, 500, 500);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, 500, 500);
+        // 2. Initialize coloring canvas (Layer 1 below) with pure white
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.clearRect(0, 0, w, h);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, w, h);
+        }
       };
       img.src = template.imageUrl;
     } else {
+      // Clear overlay for free-draw
       outlineImageDataRef.current = null;
-      ctx.clearRect(0, 0, 500, 500);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, 500, 500);
+      overlay.width = w;
+      overlay.height = h;
+      const oCtx = overlay.getContext('2d');
+      if (oCtx) {
+        oCtx.clearRect(0, 0, w, h);
+      }
+
+      // Initialize coloring canvas
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, w, h);
+      }
     }
   }, [template.id, template.imageUrl]);
 
-  // Convert client coordinates to 0..500 SVG/Canvas coordinates
+  // Convert client pointer coordinates to exact 0..500 Canvas coordinates
   const getCoordinates = (e: React.PointerEvent | PointerEvent) => {
-    if (!containerRef.current) return { x: 0, y: 0 };
-    const board = containerRef.current.querySelector('[data-drawing-board="true"]');
-    if (!board) return { x: 0, y: 0 };
-    const rect = board.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 500;
-    const y = ((e.clientY - rect.top) / rect.height) * 500;
-    return { x, y };
+    const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return { x: 0, y: 0 };
+    const x = ((e.clientX - rect.left) / rect.width) * canvas.width;
+    const y = ((e.clientY - rect.top) / rect.height) * canvas.height;
+    return {
+      x: Math.max(0, Math.min(canvas.width - 1, Math.round(x))),
+      y: Math.max(0, Math.min(canvas.height - 1, Math.round(y)))
+    };
   };
 
   // Capture canvas state for history
@@ -178,7 +220,7 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
         return;
       }
 
-      // Find which SVG path was clicked
+      // Find which SVG path was clicked (if SVG region template)
       const target = document.elementFromPoint(e.clientX, e.clientY);
       const regionId = target?.getAttribute('data-region-id');
       if (regionId) {
@@ -489,9 +531,8 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
         )}
       </div>
 
-      {/* Main Drawing Canvas Board */}
+      {/* Main Drawing Canvas Board (500x500 square) */}
       <div 
-        data-drawing-board="true"
         style={{
           transform: `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`,
           transformOrigin: 'center center',
@@ -499,39 +540,38 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
         }}
         className="w-full max-w-[500px] aspect-square bg-white rounded-3xl shadow-xl border-4 border-amber-200 relative overflow-hidden"
       >
-        {/* LAYER 0: Interactive Fillable SVG Paths (Base Fills) */}
-        <svg
-          ref={svgRef}
-          viewBox={template.viewBox || "0 0 500 500"}
-          className="absolute inset-0 w-full h-full z-0 pointer-events-auto"
-        >
-          {/* Background rect */}
-          <rect width="500" height="500" fill="#FFFFFF" />
-
-          {/* Fillable Path Regions */}
-          {template.regions.map(r => {
-            const fillColor = filledRegions[r.id] || r.defaultColor || '#FFFFFF';
-            return (
-              <path
-                key={r.id}
-                id={r.id}
-                data-region-id={r.id}
-                d={r.d}
-                fill={fillColor}
-                stroke="none"
-                className={`transition-colors duration-150 ${
-                  currentTool === 'fill' ? 'cursor-pointer hover:opacity-90' : ''
-                }`}
-                onClick={() => {
-                  if (currentTool === 'fill') {
-                    sound.playFill();
-                    onFillRegion(r.id, currentColor);
-                  }
-                }}
-              />
-            );
-          })}
-        </svg>
+        {/* LAYER 0: Interactive Fillable SVG Paths (Only for SVG path templates) */}
+        {template.regions.length > 0 && (
+          <svg
+            ref={svgRef}
+            viewBox={template.viewBox || "0 0 500 500"}
+            className="absolute inset-0 w-full h-full z-0 pointer-events-auto"
+          >
+            <rect width="500" height="500" fill="#FFFFFF" />
+            {template.regions.map(r => {
+              const fillColor = filledRegions[r.id] || r.defaultColor || '#FFFFFF';
+              return (
+                <path
+                  key={r.id}
+                  id={r.id}
+                  data-region-id={r.id}
+                  d={r.d}
+                  fill={fillColor}
+                  stroke="none"
+                  className={`transition-colors duration-150 ${
+                    currentTool === 'fill' ? 'cursor-pointer hover:opacity-90' : ''
+                  }`}
+                  onClick={() => {
+                    if (currentTool === 'fill') {
+                      sound.playFill();
+                      onFillRegion(r.id, currentColor);
+                    }
+                  }}
+                />
+              );
+            })}
+          </svg>
+        )}
 
         {/* LAYER 1: Freehand Drawing & Coloring Canvas (middle at z-10) */}
         <canvas
@@ -547,13 +587,14 @@ export const CanvasArea: React.FC<CanvasAreaProps> = ({
           }`}
         />
 
-        {/* LAYER 2: Crisp Cartoon Outlines ALWAYS on top with Multiply blend mode so drawings NEVER cover the line-art */}
+        {/* LAYER 2: Crisp Line-Art Canvas Overlay (TOP at z-20) */}
+        {/* Rendered on an exact 500x500 overlay canvas with mixBlendMode: multiply */}
         {template.imageUrl ? (
-          <img
-            src={template.imageUrl}
-            alt="Line Art Overlay"
-            draggable={false}
-            className="absolute inset-0 w-full h-full z-20 pointer-events-none select-none object-contain"
+          <canvas
+            ref={overlayCanvasRef}
+            width={500}
+            height={500}
+            className="absolute inset-0 w-full h-full z-20 pointer-events-none select-none touch-none"
             style={{ mixBlendMode: 'multiply' }}
           />
         ) : (
